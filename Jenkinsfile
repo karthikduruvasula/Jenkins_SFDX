@@ -94,7 +94,7 @@ pipeline {
                 script {
                     echo "Cleaning previous delta artifacts..."  
                     sh "rm -rf changed-sources"
-                    
+
                     sh "mkdir -p changed-sources"
                     // Generate Delta based on diff against main
                     sh """
@@ -146,6 +146,7 @@ pipeline {
                             sf project deploy start \
                                 --manifest "changed-sources/package/package.xml" \
                                 --target-org "${env.SF_ALIAS}" \
+                                --ignore-conflicts \
                                 --wait 30
                         """
                     } else {
