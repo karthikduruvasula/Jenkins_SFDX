@@ -92,6 +92,9 @@ pipeline {
         stage('Generate Delta') {
             steps {
                 script {
+                    echo "Cleaning previous delta artifacts..."  
+                    sh "rm -rf changed-sources"
+                    
                     sh "mkdir -p changed-sources"
                     // Generate Delta based on diff against main
                     sh """
