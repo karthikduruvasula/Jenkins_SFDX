@@ -32,19 +32,19 @@ pipeline {
                     
                     // Logic: If 'auto', pick env based on Branch Name
                     if (selectedEnv == 'auto') {
-                        if (branchName.startsWith('feature/')) {
-                            env.FINAL_ENV = 'qa' // Feature branches -> SIT/QA
-                        } else if (branchName == 'main') {
-                            env.FINAL_ENV = 'prod'
+                        if (branchName == 'develop') {                            
+                            env.FINAL_ENV = 'qa'  // Branch is develop -> Deploy to QA Org
+                        } else if (branchName == 'integration') {
+                            env.FINAL_ENV = 'uat'    // Branch is integration -> Deploy to UAT Org
                         } else if (branchName.startsWith('release/')) {
-                            env.FINAL_ENV = 'uat'
+                            env.FINAL_ENV = 'prod'   // Branch starts with release (e.g., release/v1.0) -> Deploy to PROD Org
                         } else {
                             env.FINAL_ENV = 'dev' // Default fallback
                         }
                     } else {
                         env.FINAL_ENV = selectedEnv // Manual Override
                     }
-
+                    
                     // 3. Set Org Alias & Credentials based on Final Env
                     env.SF_ALIAS = "${env.FINAL_ENV}_org"
                     
